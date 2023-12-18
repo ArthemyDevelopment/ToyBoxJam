@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      steady_cam.p8_0: 3734388836628300267
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bikisfx.p8_0: -5428440036784668717
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

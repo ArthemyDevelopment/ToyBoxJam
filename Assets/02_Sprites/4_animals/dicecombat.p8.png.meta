@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dicecombat.p8_0: 1230142538228376111
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
