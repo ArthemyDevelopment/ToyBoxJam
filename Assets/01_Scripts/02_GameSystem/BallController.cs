@@ -56,21 +56,32 @@ public class BallController : SingletonManager<BallController>
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Speed"))
+        Debug.Log("Hit");
+        if(col.CompareTag("Player"))
+        {
+            Debug.Log("Trigger Player Enter");
+            Vector2 Dir = transform.position - PlayerController.current.transform.position;
+            Bounce(col,Dir);
+            
+        }   
+        else if (col.CompareTag("Speed"))
         {
             if (col.gameObject.transform.position.y - 0.3 < transform.position.y) return;
             Vector2 Dir = Vector2.down.normalized;
-            BounceAndSpeed(col,Dir);
+            Bounce(col,Dir);
         }
-        else if(col.CompareTag("Player"))
-        {
-            if (col.gameObject.transform.position.y > transform.position.y) return;
-            
-            Vector2 Dir = transform.position - col.gameObject.transform.position;
-            BounceAndSpeed(col,Dir);
-            
-        }   
     }
+
+    /*private void OnTriggerStay(Collider col)
+    {
+        if(col.CompareTag("Player Stay"))
+        {
+            Debug.Log("Trigger Player stay");
+           
+            
+            
+        } 
+    }*/
 
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -78,6 +89,7 @@ public class BallController : SingletonManager<BallController>
         {
             //Debug.Log("Player Score");
             GameManager.current.AddScore();
+            ActSpeed = (ActSpeed* SpeedMultiplier) + SpeedAdditive;
         }
         else if (col.gameObject.CompareTag("GameOver"))
         {
@@ -86,10 +98,9 @@ public class BallController : SingletonManager<BallController>
         }
     }
 
-    public void BounceAndSpeed(Collider2D col, Vector2 Dir)
+    public void Bounce(Collider2D col, Vector2 Dir)
     {
         //Debug.Log("Speed up");
-        ActSpeed = (ActSpeed* SpeedMultiplier) + SpeedAdditive;
         rb.velocity = Dir.normalized * ActSpeed ;
         //Debug.Log(rb.velocity);
     }
