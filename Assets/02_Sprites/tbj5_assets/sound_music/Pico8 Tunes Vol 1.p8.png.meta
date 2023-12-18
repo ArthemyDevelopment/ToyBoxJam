@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Pico8 Tunes Vol 1.p8_0: -4603252206123048258
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

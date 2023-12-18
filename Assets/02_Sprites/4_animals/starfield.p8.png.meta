@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      starfield.p8_0: -600591874560958448
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

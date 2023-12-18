@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      balloon_bomber.p8_0: 4752767559645793927
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

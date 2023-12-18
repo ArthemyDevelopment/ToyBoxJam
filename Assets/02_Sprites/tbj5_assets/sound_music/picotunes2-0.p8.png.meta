@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      picotunes2-0.p8_0: 6535154830566964813
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
