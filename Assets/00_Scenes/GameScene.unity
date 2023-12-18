@@ -1994,7 +1994,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   StartSpeed: 3
-  SpeedModifier: 1.05
+  SpeedMultiplier: 1.01
+  SpeedAdditive: 0.2
   ActSpeed: 0
 --- !u!1 &2020064813
 GameObject:
