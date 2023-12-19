@@ -25,6 +25,7 @@ public class PlayerController : SingletonManager<PlayerController>
     {
 #if UNITY_WEBGL
 
+        
         var ScreenPoint = Input.mousePosition;
         ScreenPoint.z = 10;
         PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
