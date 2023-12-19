@@ -1,66 +1,57 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Schema;
 using UnityEngine;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : SingletonManager<PlayerController>
 {
-    private float inputHorizontal;
-    public Vector2 HorMove;
-    public float MoveSpeed;
-    private Rigidbody2D rb;
-    private void OnEnable()
-    {
-        if(rb==null)
-            rb = GetComponent<Rigidbody2D>();
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject HitBox;
+    public Rigidbody2D HitBoxRb;
+    public float timeHitBox;
+    public float PositionX; 
+    
 
     // Update is called once per frame
     void Update()
     {
-        CheckInput();    
+        CheckInput();
+        
     }
 
-    private void FixedUpdate()
-    {
-        rb.velocityX = HorMove.x * MoveSpeed;
-    }
 
     void CheckInput()
     {
 #if UNITY_WEBGL
+
         
-        inputHorizontal = Input.GetAxis("Horizontal");
-        HorMove.x = inputHorizontal;
+        var ScreenPoint = Input.mousePosition;
+        ScreenPoint.z = 10;
+        PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
+        
+        transform.position = new Vector2(PositionX, transform.position.y);
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Debug.Log("HitBall");
+            StartCoroutine(ActiveHitBox());
+        }
+
 #endif
-        
+
+#if UNITY_ANDROID
+        transform.position = new Vector2(Input.GetTouch(0).position.x, transform.position.y);
+
+#endif
+
     }
 
-    public void MoveLeft()
+    IEnumerator ActiveHitBox()
     {
-        HorMove.x += -1;
+        HitBox.SetActive(true);
+        //HitBoxRb.WakeUp();
+        yield return ScriptsTools.GetWait(timeHitBox);
+        HitBox.SetActive(false);
     }
 
-    public void StopLeft()
-    {
-        HorMove.x += 1;
-    }
-
-    public void MoveRight()
-    {
-        HorMove.x += 1;
-    }
-
-    public void StopRight()
-    {
-        HorMove.x += -1;
-    }
 }
