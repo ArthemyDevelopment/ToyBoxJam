@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyRandomController : MonoBehaviour
+public class EnemyRandomController : MonoBehaviour, IEnemyController
 {
     public float MoveSpeed;
     public float RefreshPositionTime;
@@ -32,7 +32,7 @@ public class EnemyRandomController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!IsActive) return;
+        if(ActState==State.Dash) return;
 
         transform.position = Vector2.SmoothDamp(transform.position, Target, ref velocity, SmoothTime, MoveSpeed);
     }
@@ -54,5 +54,12 @@ public class EnemyRandomController : MonoBehaviour
 
             yield return ScriptsTools.GetWait(RefreshPositionTime);
         }
+    }
+
+    public void ChangeState(State state)
+    {
+        ActState = state;
+        if (state == State.Movement)
+            StartCoroutine(RefreshMovement());
     }
 }

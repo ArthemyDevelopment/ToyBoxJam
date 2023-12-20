@@ -56,10 +56,10 @@ public class BallController : SingletonManager<BallController>
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Hit");
+        
         if(col.CompareTag("Player"))
         {
-            Debug.Log("Trigger Player Enter");
+            
             Vector2 Dir = transform.position - PlayerController.current.transform.position;
             Bounce(col,Dir);
             
@@ -69,6 +69,7 @@ public class BallController : SingletonManager<BallController>
             if (col.gameObject.transform.position.y - 0.2 < transform.position.y) return;
             Vector2 Dir = Vector2.down.normalized;
             Bounce(col,Dir);
+            col.GetComponent<EnemyDashController>().AddHit();
         }
     }
 
@@ -87,21 +88,21 @@ public class BallController : SingletonManager<BallController>
     {
         if (col.gameObject.CompareTag("Score"))
         {
-            //Debug.Log("Player Score");
+            
             GameManager.current.AddScore();
             ActSpeed = (ActSpeed* SpeedMultiplier) + SpeedAdditive;
         }
         else if (col.gameObject.CompareTag("GameOver"))
         {
-            //Debug.Log("GameOver");
+            
             rb.velocity = Vector2.zero;
         }
     }
 
     public void Bounce(Collider2D col, Vector2 Dir)
     {
-        //Debug.Log("Speed up");
+        
         rb.velocity = Dir.normalized * ActSpeed ;
-        //Debug.Log(rb.velocity);
+        
     }
 }

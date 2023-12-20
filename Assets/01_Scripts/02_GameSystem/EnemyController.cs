@@ -8,7 +8,14 @@ public enum State
     Movement,
     Dash,
 }
-public class EnemyController : MonoBehaviour
+
+public interface IEnemyController
+{
+    public void ChangeState(State state);
+
+}
+
+public class EnemyController : MonoBehaviour, IEnemyController
 {
 
     public float MoveSpeed;
@@ -37,7 +44,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!IsActive) return;
+        if(ActState==State.Dash) return;
 
         transform.position = Vector2.SmoothDamp(transform.position, Target, ref velocity, SmoothTime, MoveSpeed);
     }
@@ -50,5 +57,12 @@ public class EnemyController : MonoBehaviour
             Target.y = transform.position.y;
             yield return ScriptsTools.GetWait(RefreshPositionTime);
         }
+    }
+
+    public void ChangeState(State state)
+    {
+        ActState = state;
+        if (state == State.Movement)
+            StartCoroutine(RefreshMovement());
     }
 }
