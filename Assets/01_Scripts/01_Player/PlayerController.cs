@@ -40,7 +40,16 @@ public class PlayerController : SingletonManager<PlayerController>
 #endif
 
 #if UNITY_ANDROID
-        transform.position = new Vector2(Input.GetTouch(0).position.x, transform.position.y);
+        var ScreenPoint = Input.GetTouch[0].position;
+        ScreenPoint.z = 10;
+        PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
+        
+        transform.position = new Vector2(PositionX, transform.position.y);
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Debug.Log("HitBall");
+            StartCoroutine(ActiveHitBox());
+        }
 
 #endif
 

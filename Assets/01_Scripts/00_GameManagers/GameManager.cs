@@ -21,9 +21,12 @@ public class GameManager : SingletonManager<GameManager>
     public void CheckProgress(int score)
     {
         int ScoreToCheck = GetKeyToCheck(score);
-        
+        Debug.Log(ScoreToCheck);
         if (ProgressSpawn.ContainsKey(ScoreToCheck))
+        {
             ProgressSpawn[ScoreToCheck].SetActive(true);
+            Debug.Log(ProgressSpawn[ScoreToCheck].name);
+        }
     }
 
     public int GetKeyToCheck(int score)
@@ -35,7 +38,7 @@ public class GameManager : SingletonManager<GameManager>
             if (score >= DicKeys[i] && score < DicKeys[i + 1]) return DicKeys[i];
             
         }
-
+        Debug.Log(score);
         return score;
     }
     

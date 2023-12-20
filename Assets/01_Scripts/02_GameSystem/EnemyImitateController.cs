@@ -1,23 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum State
+public class EnemyImitateController : MonoBehaviour, IEnemyController
 {
-    Movement,
-    Dash,
-}
-
-public interface IEnemyController
-{
-    public void ChangeState(State state);
-
-}
-
-public class EnemyController : MonoBehaviour, IEnemyController
-{
-
     public float MoveSpeed;
     public float RefreshPositionTime;
     public float SmoothTime;
@@ -53,7 +39,7 @@ public class EnemyController : MonoBehaviour, IEnemyController
     {
         while (ActState== State.Movement)
         {
-            Target.x = BallController.current.gameObject.transform.position.x;
+            Target.x = PlayerController.current.PositionX;
             Target.y = transform.position.y;
             yield return ScriptsTools.GetWait(RefreshPositionTime);
         }
@@ -61,8 +47,8 @@ public class EnemyController : MonoBehaviour, IEnemyController
 
     public void ChangeState(State state)
     {
+        
         ActState = state;
         if (state == State.Movement)
-            StartCoroutine(RefreshMovement());
-    }
+            StartCoroutine(RefreshMovement());    }
 }
