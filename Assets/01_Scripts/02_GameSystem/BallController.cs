@@ -66,7 +66,7 @@ public class BallController : SingletonManager<BallController>
         }   
         else if (col.CompareTag("Speed"))
         {
-            if (col.gameObject.transform.position.y - 0.3 < transform.position.y) return;
+            if (col.gameObject.transform.position.y - 0.2 < transform.position.y) return;
             Vector2 Dir = Vector2.down.normalized;
             Bounce(col,Dir);
         }

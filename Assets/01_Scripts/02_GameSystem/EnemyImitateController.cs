@@ -1,16 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum State
+public class EnemyImitateController : MonoBehaviour
 {
-    Movement,
-    Dash,
-}
-public class EnemyController : MonoBehaviour
-{
-
     public float MoveSpeed;
     public float RefreshPositionTime;
     public float SmoothTime;
@@ -46,7 +39,7 @@ public class EnemyController : MonoBehaviour
     {
         while (ActState== State.Movement)
         {
-            Target.x = BallController.current.gameObject.transform.position.x;
+            Target.x = PlayerController.current.PositionX;
             Target.y = transform.position.y;
             yield return ScriptsTools.GetWait(RefreshPositionTime);
         }
