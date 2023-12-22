@@ -1,6 +1,5 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum State
@@ -12,6 +11,7 @@ public enum State
 public interface IEnemyController
 {
     public void ChangeState(State state);
+    public State GetState();
 
 }
 
@@ -27,12 +27,7 @@ public class EnemyController : MonoBehaviour, IEnemyController
 
     
     [SerializeField]private State ActState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     private void OnEnable()
     {
@@ -64,5 +59,10 @@ public class EnemyController : MonoBehaviour, IEnemyController
         ActState = state;
         if (state == State.Movement)
             StartCoroutine(RefreshMovement());
+    }
+
+    public State GetState()
+    {
+        return ActState;
     }
 }

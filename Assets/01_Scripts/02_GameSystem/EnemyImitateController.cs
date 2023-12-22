@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyImitateController : MonoBehaviour, IEnemyController
@@ -14,11 +13,7 @@ public class EnemyImitateController : MonoBehaviour, IEnemyController
     
     [SerializeField]private State ActState;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     private void OnEnable()
     {
@@ -50,5 +45,10 @@ public class EnemyImitateController : MonoBehaviour, IEnemyController
         
         ActState = state;
         if (state == State.Movement)
-            StartCoroutine(RefreshMovement());    }
+            StartCoroutine(RefreshMovement());    
+    }
+    public State GetState()
+    {
+        return ActState;
+    }
 }

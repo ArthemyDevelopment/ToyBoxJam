@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyRandomController : MonoBehaviour, IEnemyController
@@ -15,13 +14,7 @@ public class EnemyRandomController : MonoBehaviour, IEnemyController
 
     
     [SerializeField]private State ActState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    
     private void OnEnable()
     {
         ActState = State.Movement;
@@ -61,5 +54,9 @@ public class EnemyRandomController : MonoBehaviour, IEnemyController
         ActState = state;
         if (state == State.Movement)
             StartCoroutine(RefreshMovement());
+    }
+    public State GetState()
+    {
+        return ActState;
     }
 }

@@ -1,9 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -14,7 +12,7 @@ public class BallController : SingletonManager<BallController>
     public float SpeedMultiplier;
     public float SpeedAdditive;
     [SerializeField]private float ActSpeed;
-    
+    private bool CDBounce;
     
     private void OnEnable()
     {
@@ -31,28 +29,6 @@ public class BallController : SingletonManager<BallController>
         ActSpeed = StartSpeed;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void FixedUpdate()
-    {
-        
-    }
-
-
-    /*private void OnTriggerEnter2D(Collider2D col)
-    {
-        if(col.CompareTag("Speed"))
-        {            
-            
-        }
-        else if(col.CompareTag("Score"))
-        else if (col.CompareTag("GameOver"))
-    }
-    */
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -67,22 +43,21 @@ public class BallController : SingletonManager<BallController>
         else if (col.CompareTag("Speed"))
         {
             if (col.gameObject.transform.position.y - 0.2 < transform.position.y) return;
+            if (col.GetComponent<IEnemyController>().GetState() == State.Dash && CDBounce) return;
+            CDBounce = true;
+            StartCoroutine(CDDashBounce());
             Vector2 Dir = Vector2.down.normalized;
             Bounce(col,Dir);
             col.GetComponent<EnemyDashController>().AddHit();
         }
     }
 
-    /*private void OnTriggerStay(Collider col)
+    IEnumerator CDDashBounce()
     {
-        if(col.CompareTag("Player Stay"))
-        {
-            Debug.Log("Trigger Player stay");
-           
-            
-            
-        } 
-    }*/
+        yield return ScriptsTools.GetWait(0.2f);
+        CDBounce = false;
+    }
+    
 
     private void OnCollisionEnter2D(Collision2D col)
     {
