@@ -23,7 +23,7 @@ public class EnemyDashController : MonoBehaviour
     {
         if (controller == null)
             controller = GetComponent<IEnemyController>();
-
+        ActHits = 0;
     }
 
     void CheckHits()

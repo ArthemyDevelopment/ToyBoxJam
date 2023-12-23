@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class PlayerController : SingletonManager<PlayerController>
@@ -28,6 +29,13 @@ public class PlayerController : SingletonManager<PlayerController>
     private Vector2 Target;
     private Vector2 velocity;
     [SerializeField] private float SlowTime;
+
+  
+#if UNITY_WEBGL
+    private Vector3 ScreenPoint;
+#elif UNITY_ANDROID
+    private Vector2 ScreenPoint;
+#endif
     
     
     public Animator anim;
@@ -36,6 +44,9 @@ public class PlayerController : SingletonManager<PlayerController>
     {
         if (anim == null) anim = GetComponent<Animator>();
         ActiveMovement();
+        ScreenPoint = transform.position;
+
+
     }
 
     // Update is called once per frame
@@ -69,9 +80,13 @@ public class PlayerController : SingletonManager<PlayerController>
 #endif
         
 #if UNITY_ANDROID
-       if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(ActiveHitBox());
+       if (Input.touchCount>0)
+       {
+           if (Input.GetTouch(0).phase == TouchPhase.Began)
+           {
+                StartCoroutine(ActiveHitBox());
+                anim.Play("HitBall");
+           }
         }
 #endif
         
@@ -80,13 +95,16 @@ public class PlayerController : SingletonManager<PlayerController>
     void InstantMove()
     {
 #if UNITY_WEBGL
-        var ScreenPoint = Input.mousePosition;
+        ScreenPoint = Input.mousePosition;
+        ScreenPoint.z = 10; 
 #endif
 
 #if UNITY_ANDROID
-        var ScreenPoint = Input.GetTouch[0].position;
+        
+        if(Input.touchCount>0)
+            if(Input.GetTouch(0).phase==TouchPhase.Moved||Input.GetTouch(0).phase==TouchPhase.Stationary)
+                ScreenPoint = Input.GetTouch(0).position;
 #endif
-        ScreenPoint.z = 10;
         PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
         transform.position = new Vector2(PositionX, transform.position.y);
 
@@ -98,17 +116,19 @@ public class PlayerController : SingletonManager<PlayerController>
         
         #if UNITY_WEBGL
         
-            var ScreenPoint = Input.mousePosition;
+            ScreenPoint = Input.mousePosition;
+            ScreenPoint.z = 10; 
         
         #endif
         
         #if UNITY_ANDROID
         
-            var ScreenPoint = Input.GetTouch[0].position;
+        if(Input.touchCount>0)
+            if(Input.GetTouch(0).phase==TouchPhase.Moved||Input.GetTouch(0).phase==TouchPhase.Stationary)
+                ScreenPoint = Input.GetTouch(0).position;
         
         #endif
         
-        ScreenPoint.z = 10;
         var positionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
         Target.x = positionX; 
         transform.position = Vector2.SmoothDamp(transform.position, Target, ref velocity, SmoothTime, MoveSpeed);

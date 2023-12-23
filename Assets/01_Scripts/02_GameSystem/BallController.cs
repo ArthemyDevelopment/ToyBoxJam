@@ -13,7 +13,7 @@ public class BallController : SingletonManager<BallController>
     public float SpeedAdditive;
     [SerializeField]private float ActSpeed;
     private bool CDBounce;
-    
+    private Vector2 StartPosition;
     public Animator anim;
 
 
@@ -21,11 +21,13 @@ public class BallController : SingletonManager<BallController>
     {
         if (anim == null) anim = GetComponent<Animator>();
         if (rb == null) rb = GetComponent<Rigidbody2D>();
+        StartPosition = transform.position;
     }
 
     [Button]
     public void InitBall()
     {
+        transform.position = StartPosition;
         float xVelocity = Random.Range(0, 2) == 0 ? -1 : 1;
         rb.velocity = new Vector2(xVelocity, -1).normalized* StartSpeed;
         ActSpeed = StartSpeed;

@@ -10,6 +10,7 @@ public class GameManager : SingletonManager<GameManager>
     public int Score;
     public TMP_Text Tx_Score;
     public List<GameObject> Enemies;
+    public GameObject LoseCanvas;
 
     [SerializeField]private Dictionary<int, GameObject> ProgressSpawn = new Dictionary<int, GameObject>();
 
@@ -67,6 +68,8 @@ public class GameManager : SingletonManager<GameManager>
             G.SetActive(false);
         }
         ResetScore();
+        PlayerController.current.ActiveMovement();
+        StartGame();
     }
 
     public void ResetScore()
@@ -78,6 +81,6 @@ public class GameManager : SingletonManager<GameManager>
 
     public void LoseGame()
     {
-        //Active lose canvas
+        LoseCanvas.SetActive(true);
     }
 }
