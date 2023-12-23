@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4648910819463861851}
   - component: {fileID: 3334403089471617372}
   - component: {fileID: 7237561733661135127}
+  - component: {fileID: 2543523458081394594}
   m_Layer: 0
   m_Name: Bunny
   m_TagString: Speed
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -782957463, guid: 7f34df781f546bb44a8eb3437d49485b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,17 +122,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.067191005, y: -0.31245315}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 2.875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.12, y: 1.7474859}
   m_EdgeRadius: 0
 --- !u!50 &3334403089471617372
 Rigidbody2D:
@@ -176,3 +177,23 @@ MonoBehaviour:
   RefreshPositionTime: 0.2
   SmoothTime: 0.2
   ActState: 0
+--- !u!114 &2543523458081394594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427884442305317834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce66a9c151d3cc499b53591d2d45a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitsToDash: 2
+  ActHits: 0
+  CoolDownTime: 4
+  PositionToDash: -12
+  DashTresholdStop: 0.3
+  basePosition: {x: 0, y: 4}
+  MoveSpeed: 8
+  SmoothTime: 0.2
