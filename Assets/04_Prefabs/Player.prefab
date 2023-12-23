@@ -252,3 +252,7 @@ MonoBehaviour:
   HitBoxRb: {fileID: 4892919892234917969}
   timeHitBox: 0.1
   PositionX: 0
+  ActMoveType: 0
+  MoveSpeed: 10
+  SmoothTime: 0.2
+  SlowTime: 2
