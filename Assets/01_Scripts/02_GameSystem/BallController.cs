@@ -14,10 +14,13 @@ public class BallController : SingletonManager<BallController>
     [SerializeField]private float ActSpeed;
     private bool CDBounce;
     
+    public Animator anim;
+
+
     private void OnEnable()
     {
-        if (rb == null)
-            rb = GetComponent<Rigidbody2D>();
+        if (anim == null) anim = GetComponent<Animator>();
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
     }
 
     [Button]
@@ -25,7 +28,6 @@ public class BallController : SingletonManager<BallController>
     {
         float xVelocity = Random.Range(0, 2) == 0 ? -1 : 1;
         rb.velocity = new Vector2(xVelocity, -1).normalized* StartSpeed;
-        //Debug.Log(rb.velocity);
         ActSpeed = StartSpeed;
     }
 
@@ -35,7 +37,7 @@ public class BallController : SingletonManager<BallController>
         
         if(col.CompareTag("Player"))
         {
-            
+            anim.Play("OnHit");
             Vector2 Dir = transform.position - PlayerController.current.transform.position;
             Bounce(col,Dir);
             
@@ -43,7 +45,11 @@ public class BallController : SingletonManager<BallController>
         else if (col.CompareTag("Speed"))
         {
             if (col.gameObject.transform.position.y - 0.2 < transform.position.y) return;
-            if (col.GetComponent<IEnemyController>().GetState() == State.Dash && CDBounce) return;
+            IEnemyController temp = col.GetComponent<IEnemyController>();
+            if (temp == null) return;
+            if (temp.GetState() == State.Dash && CDBounce) return;
+            temp.PlayHitAnim();
+            anim.Play("OnHit");
             CDBounce = true;
             StartCoroutine(CDDashBounce());
             Vector2 Dir = Vector2.down.normalized;
@@ -69,7 +75,8 @@ public class BallController : SingletonManager<BallController>
         }
         else if (col.gameObject.CompareTag("GameOver"))
         {
-            
+            GameManager.current.LoseGame();
+            PlayerController.current.Lose();
             rb.velocity = Vector2.zero;
         }
     }

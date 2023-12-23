@@ -13,10 +13,12 @@ public class EnemyImitateController : MonoBehaviour, IEnemyController
     
     [SerializeField]private State ActState;
 
+    public Animator anim;
 
 
     private void OnEnable()
     {
+        if (anim == null) anim = GetComponent<Animator>();
         ActState = State.Movement;
         StartCoroutine(RefreshMovement());
         IsActive = true;
@@ -44,11 +46,25 @@ public class EnemyImitateController : MonoBehaviour, IEnemyController
     {
         
         ActState = state;
-        if (state == State.Movement)
-            StartCoroutine(RefreshMovement());    
+        switch (state)
+        {
+            case State.Movement:
+                StartCoroutine(RefreshMovement());
+                anim.Play("EnemyIdle");
+                break;
+            case State.Dash:
+                anim.Play("WitchDash");
+                break;
+            
+        }  
     }
     public State GetState()
     {
         return ActState;
+    }
+
+    public void PlayHitAnim()
+    {
+        anim.Play("EnemyHit");
     }
 }

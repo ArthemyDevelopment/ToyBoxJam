@@ -13,10 +13,12 @@ public class PlayerController : SingletonManager<PlayerController>
     public float PositionX;
 
 
+
     enum MoveType
     {
         Instant,
         Delay,
+        Lose,
     }
 
     [SerializeField]private MoveType ActMoveType;
@@ -27,6 +29,15 @@ public class PlayerController : SingletonManager<PlayerController>
     private Vector2 velocity;
     [SerializeField] private float SlowTime;
     
+    
+    public Animator anim;
+
+    public void OnEnable()
+    {
+        if (anim == null) anim = GetComponent<Animator>();
+        ActiveMovement();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -38,9 +49,12 @@ public class PlayerController : SingletonManager<PlayerController>
             case MoveType.Delay:
                 DelayMove();
                 break;
+            case MoveType.Lose:
+                break;
 
         }
-        HitBallInput();
+        if(ActMoveType!=MoveType.Lose)
+            HitBallInput();
     }
 
 
@@ -50,6 +64,7 @@ public class PlayerController : SingletonManager<PlayerController>
         if (Input.GetMouseButtonDown(0))
         {
             StartCoroutine(ActiveHitBox()); 
+            anim.Play("HitBall");
         }
 #endif
         
@@ -65,49 +80,52 @@ public class PlayerController : SingletonManager<PlayerController>
     void InstantMove()
     {
 #if UNITY_WEBGL
-        
         var ScreenPoint = Input.mousePosition;
-        ScreenPoint.z = 10;
-        PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
-        transform.position = new Vector2(PositionX, transform.position.y);
 #endif
 
 #if UNITY_ANDROID
         var ScreenPoint = Input.GetTouch[0].position;
+#endif
         ScreenPoint.z = 10;
         PositionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
-         transform.position = new Vector2(PositionX, transform.position.y);
-#endif
+        transform.position = new Vector2(PositionX, transform.position.y);
 
     }
 
     void DelayMove()
     {
+        Target.y = transform.position.y;
         
         #if UNITY_WEBGL
-        Target.y = transform.position.y;
-        var ScreenPoint = Input.mousePosition;
+        
+            var ScreenPoint = Input.mousePosition;
+        
+        #endif
+        
+        #if UNITY_ANDROID
+        
+            var ScreenPoint = Input.GetTouch[0].position;
+        
+        #endif
+        
         ScreenPoint.z = 10;
         var positionX = Camera.main.ScreenToWorldPoint(ScreenPoint).x;
         Target.x = positionX; 
         transform.position = Vector2.SmoothDamp(transform.position, Target, ref velocity, SmoothTime, MoveSpeed);
-        
-        #endif
     }
 
     IEnumerator ActiveHitBox()
     {
         HitBox.SetActive(true);
-        //HitBoxRb.WakeUp();
+
         yield return ScriptsTools.GetWait(timeHitBox);
         HitBox.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.gameObject.name);
         if (!col.CompareTag("Speed")) return;
-        Debug.Log(col.GetComponent<IEnemyController>().GetState());
+
         if (col.GetComponent<IEnemyController>().GetState() != State.Dash) return;
 
         ActMoveType = MoveType.Delay;
@@ -118,6 +136,18 @@ public class PlayerController : SingletonManager<PlayerController>
     {
         yield return ScriptsTools.GetWait(SlowTime);
         ActMoveType = MoveType.Instant;
+    }
+
+    public void Lose()
+    {
+        anim.Play("Lose");
+        ActMoveType = MoveType.Lose;
+    }
+
+    public void ActiveMovement()
+    {
+        ActMoveType = MoveType.Instant;
+        anim.Play("Idle");
     }
 
 }

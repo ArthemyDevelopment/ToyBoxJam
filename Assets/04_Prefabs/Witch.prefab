@@ -12,16 +12,16 @@ GameObject:
   - component: {fileID: 1890822275872356594}
   - component: {fileID: 2772442008999825281}
   - component: {fileID: 316217599094789549}
-  - component: {fileID: 5394569074207225632}
   - component: {fileID: 5843332081868208886}
   - component: {fileID: 85740571193046963}
+  - component: {fileID: 8547421877993957939}
   m_Layer: 0
   m_Name: Witch
   m_TagString: Speed
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7059459207470868806
 Transform:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -810155913, guid: 7f34df781f546bb44a8eb3437d49485b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.05540541, y: -0.5078832}
+  m_Offset: {x: 0.0073128045, y: -0.5078832}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -133,7 +133,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.6, y: 1.6}
+  m_Size: {x: 1.6073785, y: 1.6000001}
   m_EdgeRadius: 0
 --- !u!50 &316217599094789549
 Rigidbody2D:
@@ -162,22 +162,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
---- !u!114 &5394569074207225632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5398108493480858352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e64b8a3e0b8528648822201879a02df5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 8
-  RefreshPositionTime: 0.1
-  SmoothTime: 0.1
-  ActState: 0
 --- !u!114 &5843332081868208886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +178,7 @@ MonoBehaviour:
   RefreshPositionTime: 0.5
   SmoothTime: 0.15
   ActState: 0
+  anim: {fileID: 0}
 --- !u!114 &85740571193046963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +196,28 @@ MonoBehaviour:
   CoolDownTime: 4
   PositionToDash: -16
   DashTresholdStop: 0.3
-  basePosition: {x: 0, y: 4}
+  basePosition: {x: 0, y: 6.8}
   MoveSpeed: 8
   SmoothTime: 0.2
+--- !u!95 &8547421877993957939
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5398108493480858352}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f90400b8103ecea41b9960fa721bcf7e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

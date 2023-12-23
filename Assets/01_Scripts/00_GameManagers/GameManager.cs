@@ -1,12 +1,15 @@
 
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : SingletonManager<GameManager>
 {
 
     public int Score;
+    public TMP_Text Tx_Score;
+    public List<GameObject> Enemies;
 
     [SerializeField]private Dictionary<int, GameObject> ProgressSpawn = new Dictionary<int, GameObject>();
 
@@ -53,7 +56,28 @@ public class GameManager : SingletonManager<GameManager>
     public void AddScore()
     {
         Score++;
-        //UpdateUI
+        Tx_Score.text = Score.ToString();
         CheckProgress(Score);
+    }
+
+    public void Reset()
+    {
+        foreach (GameObject G in Enemies)
+        {
+            G.SetActive(false);
+        }
+        ResetScore();
+    }
+
+    public void ResetScore()
+    {
+        Score=0;
+        Tx_Score.text = Score.ToString();
+        CheckProgress(Score);
+    }
+
+    public void LoseGame()
+    {
+        //Active lose canvas
     }
 }

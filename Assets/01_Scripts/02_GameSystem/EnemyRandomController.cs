@@ -15,8 +15,12 @@ public class EnemyRandomController : MonoBehaviour, IEnemyController
     
     [SerializeField]private State ActState;
     
+    public Animator anim;
+
+
     private void OnEnable()
     {
+        if (anim == null) anim = GetComponent<Animator>();
         ActState = State.Movement;
         StartCoroutine(RefreshMovement());
         IsActive = true;
@@ -52,11 +56,25 @@ public class EnemyRandomController : MonoBehaviour, IEnemyController
     public void ChangeState(State state)
     {
         ActState = state;
-        if (state == State.Movement)
-            StartCoroutine(RefreshMovement());
+        switch (state)
+        {
+            case State.Movement:
+                StartCoroutine(RefreshMovement());
+                anim.Play("EnemyIdle");
+                break;
+            case State.Dash:
+                anim.Play("BunnyDash");
+                break;
+            
+        }
     }
     public State GetState()
     {
         return ActState;
+    }
+
+    public void PlayHitAnim()
+    {
+        anim.Play("EnemyHit");
     }
 }
