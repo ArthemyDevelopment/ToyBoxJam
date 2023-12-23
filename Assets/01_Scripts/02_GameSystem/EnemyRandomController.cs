@@ -1,34 +1,20 @@
-
 using System.Collections;
 using UnityEngine;
 
-public enum State
+public class EnemyRandomController : MonoBehaviour, IEnemyController
 {
-    Movement,
-    Dash,
-}
-
-public interface IEnemyController
-{
-    public void ChangeState(State state);
-    public State GetState();
-
-}
-
-public class EnemyController : MonoBehaviour, IEnemyController
-{
-
     public float MoveSpeed;
     public float RefreshPositionTime;
     public float SmoothTime;
     private Vector2 Target;
     private Vector2 velocity;
     private bool IsActive;
+    public Transform[] ScreenBorderReference = new Transform[2];
+    public float MinMoveDistance;
 
     
     [SerializeField]private State ActState;
     
-
     private void OnEnable()
     {
         ActState = State.Movement;
@@ -48,8 +34,17 @@ public class EnemyController : MonoBehaviour, IEnemyController
     {
         while (ActState== State.Movement)
         {
-            Target.x = BallController.current.gameObject.transform.position.x;
-            Target.y = transform.position.y;
+            float tempPosition = 0;
+            float moveDistance = 0;
+            while (moveDistance < MinMoveDistance)
+            {
+                tempPosition = Random.Range(ScreenBorderReference[0].position.x, ScreenBorderReference[1].position.x);
+                Target.x = tempPosition;
+                Target.y = transform.position.y;
+                moveDistance = Vector2.Distance(transform.position, Target);
+            }
+
+
             yield return ScriptsTools.GetWait(RefreshPositionTime);
         }
     }
@@ -60,7 +55,6 @@ public class EnemyController : MonoBehaviour, IEnemyController
         if (state == State.Movement)
             StartCoroutine(RefreshMovement());
     }
-
     public State GetState()
     {
         return ActState;
