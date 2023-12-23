@@ -11,6 +11,8 @@ public class GameManager : SingletonManager<GameManager>
     public TMP_Text Tx_Score;
     public List<GameObject> Enemies;
     public GameObject LoseCanvas;
+    public GameObject WebInstructions;
+    public GameObject AndroidInstructions;
 
     [SerializeField]private Dictionary<int, GameObject> ProgressSpawn = new Dictionary<int, GameObject>();
 
@@ -19,6 +21,12 @@ public class GameManager : SingletonManager<GameManager>
     private void OnEnable()
     {
         DicKeys = new List<int>(ProgressSpawn.Keys);
+        
+        #if UNITY_WEBGL
+        WebInstructions.SetActive(true);
+        #elif UNITY_ANDROID
+        AndroidInstructions.SetActive(true);
+        #endif
     }
 
     public void CheckProgress(int score)
