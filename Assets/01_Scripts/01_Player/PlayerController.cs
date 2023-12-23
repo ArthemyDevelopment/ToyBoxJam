@@ -30,6 +30,8 @@ public class PlayerController : SingletonManager<PlayerController>
     private Vector2 velocity;
     [SerializeField] private float SlowTime;
 
+
+    private AudioSource SFX;
   
 #if UNITY_WEBGL
     private Vector3 ScreenPoint;
@@ -43,6 +45,7 @@ public class PlayerController : SingletonManager<PlayerController>
     public void OnEnable()
     {
         if (anim == null) anim = GetComponent<Animator>();
+        if(SFX==null) SFX = GetComponent<AudioSource>();
         ActiveMovement();
         ScreenPoint = transform.position;
 
@@ -148,6 +151,7 @@ public class PlayerController : SingletonManager<PlayerController>
 
         if (col.GetComponent<IEnemyController>().GetState() != State.Dash) return;
 
+        SFX.Play();
         ActMoveType = MoveType.Delay;
         StartCoroutine(SlowDebuffDuration());
     }

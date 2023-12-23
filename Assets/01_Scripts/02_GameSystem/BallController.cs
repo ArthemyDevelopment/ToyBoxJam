@@ -2,6 +2,7 @@
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 
@@ -16,11 +17,16 @@ public class BallController : SingletonManager<BallController>
     private Vector2 StartPosition;
     public Animator anim;
 
+    public AudioSource HitSFX;
+    public AudioSource ScoreSFX;
+    public AudioSource GameOverSFX;
+
 
     private void OnEnable()
     {
         if (anim == null) anim = GetComponent<Animator>();
         if (rb == null) rb = GetComponent<Rigidbody2D>();
+        
         StartPosition = transform.position;
     }
 
@@ -39,6 +45,7 @@ public class BallController : SingletonManager<BallController>
         
         if(col.CompareTag("Player"))
         {
+            HitSFX.Play();
             anim.Play("OnHit");
             Vector2 Dir = transform.position - PlayerController.current.transform.position;
             Bounce(col,Dir);
@@ -50,6 +57,7 @@ public class BallController : SingletonManager<BallController>
             IEnemyController temp = col.GetComponent<IEnemyController>();
             if (temp == null) return;
             if (temp.GetState() == State.Dash && CDBounce) return;
+            HitSFX.Play();
             temp.PlayHitAnim();
             anim.Play("OnHit");
             CDBounce = true;
@@ -69,14 +77,17 @@ public class BallController : SingletonManager<BallController>
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        HitSFX.Play();
+        anim.Play("OnHit");
         if (col.gameObject.CompareTag("Score"))
         {
-            
+            ScoreSFX.Play();
             GameManager.current.AddScore();
             ActSpeed = (ActSpeed* SpeedMultiplier) + SpeedAdditive;
         }
         else if (col.gameObject.CompareTag("GameOver"))
         {
+            GameOverSFX.Play();
             GameManager.current.LoseGame();
             PlayerController.current.Lose();
             rb.velocity = Vector2.zero;
